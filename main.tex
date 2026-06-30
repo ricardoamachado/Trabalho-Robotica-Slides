@@ -229,6 +229,270 @@
 
 \end{frame}
 
+
+\begin{frame}{Cinemática Inversa Analítica do UR5}
+
+    Objetivo:
+
+    \[
+        {}^{0}T_{6}\longrightarrow
+        \{\theta_1,\theta_2,\theta_3,\theta_4,\theta_5,\theta_6\}
+    \]
+
+    A solução utiliza uma decomposição geométrica:
+
+    \begin{itemize}
+        \item $\theta_1$ (Shoulder)
+        \item $\theta_5$ (Wrist)
+        \item $\theta_6$
+        \item $\theta_3$ (Elbow)
+        \item $\theta_2$
+        \item $\theta_4$
+    \end{itemize}
+
+    Cada etapa reduz o número de incógnitas restantes.
+
+\end{frame}
+
+\begin{frame}{Determinação de $\theta_1$}
+
+    Em primeira instância, calcula-se a posição do centro do pulso esférico e os ângulos \(\phi_1\) e \(\phi_2\)
+
+    \[
+        {}^{0}P_5=
+            {}^{0}T_6
+        \begin{bmatrix}
+            0    \\
+            0    \\
+            -d_6 \\
+            1
+        \end{bmatrix}
+    \]
+
+    \[
+        \phi_1=
+        \operatorname{atan2}(P_{5y},P_{5x})
+    \]
+
+    \[
+        \phi_2=
+        \cos^{-1}
+        \left(
+        \frac{d_4}
+        {\sqrt{P_{5x}^2+P_{5y}^2}}
+        \right)
+    \]
+
+    Existem duas soluções:
+
+    \[
+        \theta_1=
+        \phi_1\pm\phi_2+\frac{\pi}{2}
+    \]
+
+\end{frame}
+
+\begin{frame}{Determinação de $\theta_5$}
+
+    Conhecendo $\theta_1$,
+
+    \[
+        {}^{0}P_6=
+            {}^{0}T_6
+        \begin{bmatrix}
+            0 \\
+            0 \\
+            0 \\
+            1
+        \end{bmatrix}
+    \]
+
+    obtém-se
+
+    \[
+        \theta_5=
+        \cos^{-1}
+        \left(
+        \frac{
+            P_{6x}\sin\theta_1
+            -
+            P_{6y}\cos\theta_1
+            -
+            d_4
+        }
+        {d_6}
+        \right)
+    \]
+
+    Há duas configurações possíveis:
+
+    \begin{itemize}
+        \item Wrist Up
+        \item Wrist Down
+    \end{itemize}
+
+\end{frame}
+
+\begin{frame}{Determinação de $\theta_6$}
+
+    A matriz homogênea é invertida
+
+    \[
+        {}^{6}T_0
+        =
+        ({}^{0}T_6)^{-1}
+    \]
+
+    Extraindo os vetores
+
+    \[
+        {}^{6}X_0,
+        \qquad
+        {}^{6}Y_0
+    \]
+
+    obtém-se
+
+    \[
+        \theta_6=
+        \operatorname{atan2}
+        \left(
+        \frac{-x_y\sin\theta_1+y_y\cos\theta_1}
+        {\sin\theta_5},
+        \;
+        \frac{x_x\sin\theta_1-y_x\cos\theta_1}
+        {\sin\theta_5}
+        \right)
+    \]
+
+    Singularidade:
+
+    \[
+        \sin\theta_5=0
+    \]
+
+\end{frame}
+
+\begin{frame}{Determinação de $\theta_2$}
+
+    Conhecido $\theta_3$,
+
+    \[
+        \theta_2
+        =
+        -\operatorname{atan2}
+        (P_{3y},-P_{3x})
+        +
+        \sin^{-1}
+        \left(
+        \frac{
+            a_3\sin\theta_3
+        }
+        {\|P_3\|}
+        \right)
+    \]
+
+    A solução corresponde às configurações
+
+    \begin{itemize}
+        \item Elbow Up
+        \item Elbow Down
+    \end{itemize}
+
+\end{frame}
+
+\begin{frame}{Determinação de $\theta_4$}
+
+    Calculam-se
+
+    \[
+        {}^{1}T_3
+            =
+            {}^{1}T_2
+        {}^{2}T_3
+    \]
+
+    e
+
+    \[
+        {}^{3}T_4
+        =
+        ({}^{1}T_3)^{-1}
+            {}^{1}T_4
+    \]
+
+    Extraindo o eixo $x_4$
+
+    \[
+        {}^{3}X_4
+        =
+        \begin{bmatrix}
+            x \\
+            y \\
+            z
+        \end{bmatrix}
+    \]
+
+    obtém-se
+
+    \[
+        \boxed{
+            \theta_4
+            =
+            \operatorname{atan2}(y,x)
+        }
+    \]
+
+\end{frame}
+
+
+\begin{frame}{Número de Soluções}
+
+    A cinemática inversa do UR5 possui até
+
+    \[
+        2\times2\times2=8
+    \]
+
+    soluções.
+
+    Neste algoritmo são selecionadas através dos parâmetros
+
+    \begin{itemize}
+        \item Shoulder
+        \item Wrist
+        \item Elbow
+    \end{itemize}
+
+    que determinam:
+
+    \[
+        \{\text{Left, Right}\}
+    \]
+
+    \[
+        \{\text{Up, Down}\}
+    \]
+
+    \[
+        \{\text{Up, Down}\}
+    \]
+
+\end{frame}
+
+\begin{frame}{Validação da cinemática inversa.}
+    \justifying
+    A validação da cinemática inversa é realizada através de 200 matrizes de transformação homogêneas aleatórias, que são geradas a partir de 200 vetores de variáveis das juntas aleatórios.
+
+    \begin{itemize}
+        \item Para cada matriz \(T\), verifica-se o número de configurações que resultam em soluções factíveis para a cinemática inversa.
+        \item A configuração que resulta numa cinemática inversa mais próxima ao vetor de variáveis das juntas de referência é armazenada.
+        \item Plota-se o gráfico que compara as variáveis das juntas determinadas pela cinemática inversa e as variáveis das juntas de referência para as matrizes de transformação.
+    \end{itemize}
+
+
+\end{frame}
+
 \begin{frame}[allowframebreaks, noframenumbering]
     \frametitle{Referências}
     \printbibliography
