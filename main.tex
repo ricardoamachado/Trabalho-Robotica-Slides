@@ -530,11 +530,48 @@
     A validação da cinemática inversa é realizada através de 200 matrizes de transformação homogêneas aleatórias, que são geradas a partir de 200 vetores de variáveis das juntas aleatórios.
 
     \begin{itemize}
-        \item Para cada matriz \(T\), verifica-se o número de configurações que resultam em soluções factíveis para a cinemática inversa.
-        \item A configuração que resulta numa cinemática inversa mais próxima ao vetor de variáveis das juntas de referência é armazenada.
-        \item Plota-se o gráfico que compara as variáveis das juntas determinadas pela cinemática inversa e as variáveis das juntas de referência para as matrizes de transformação.
+        \item Para cada matriz \(T_6^0\), verifica-se o número de configurações que resultam em soluções factíveis para a cinemática inversa.
+        \item Sempre que uma configuração resultar num conjunto de variáveis das juntas mais próximas aos valores de referência, armazena-se essa solução.
+        \item No final de cada iteração, a solução mais próxima ao vetor de variáveis das juntas de referência é escolhida.
+        \item Plota-se o gráfico que compara o melhor vetor de variáveis das juntas encontrado por iteração e as variáveis das juntas de referência.
     \end{itemize}
 
+
+\end{frame}
+
+\begin{frame}{Validação da cinemática inversa.}
+
+    A Figura \ref{fig:num_configs} mostra o número de configurações válidas obtidas por iteração para a cinemática inversa (CI). No pior caso, são encontradas duas configurações diferentes como solução para a CI.
+    %TODO: Colocar uma figura mais larga aqui
+    \begin{figure}[htb]
+        \centering
+        \caption{Número de configurações válidas.}
+        \includegraphics[width=0.5\textwidth]{Figuras/configs_validas.pdf}
+        \label{fig:num_configs}
+    \end{figure}
+
+\end{frame}
+
+\begin{frame}{Validação da cinemática inversa.}
+    \justifying
+    O histórico das variáveis das juntas durante a validação são mostrados nas Figuras \ref{fig:juntas_ik_1_3} e \ref{fig:juntas_ik_4_6}. A implementação analítica da cinemática inversa é capaz de recuperar as variáveis das juntas utilizadas para gerar a matriz \(T_6^0\).
+
+    \begin{figure}[h]
+        \centering
+        \begin{minipage}{0.48\textwidth}
+            \centering
+            \caption{Históricos das juntas 1 a 3.}
+            \includegraphics[width=\textwidth]{Figuras/juntas_ik_1_3.pdf}
+            \label{fig:juntas_ik_1_3}
+        \end{minipage}
+        \hfill
+        \begin{minipage}{0.48\textwidth}
+            \centering
+            \caption{Históricos das juntas 4 a 6.}
+            \includegraphics[width=\textwidth]{Figuras/juntas_ik_4_6.pdf}
+            \label{fig:juntas_ik_4_6}
+        \end{minipage}
+    \end{figure}
 
 \end{frame}
 
