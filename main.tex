@@ -235,11 +235,11 @@
     Objetivo:
 
     \[
-        {}^{0}T_{6}\longrightarrow
+        T_{6}^{0}\longrightarrow
         \{\theta_1,\theta_2,\theta_3,\theta_4,\theta_5,\theta_6\}
     \]
 
-    A solução utiliza uma decomposição geométrica:
+    A solução utiliza uma decomposição geométrica descrita em \cite{Andersen2018} e \cite{Keating2014}:
 
     \begin{itemize}
         \item $\theta_1$ (Shoulder)
@@ -251,6 +251,9 @@
     \end{itemize}
 
     Cada etapa reduz o número de incógnitas restantes.
+    A cinemática inversa do UR5 possui até \( 2\times2\times2=8\) soluções.
+    
+    
 
 \end{frame}
 
@@ -259,8 +262,8 @@
     Em primeira instância, calcula-se a posição do centro do pulso esférico e os ângulos \(\phi_1\) e \(\phi_2\)
 
     \[
-        {}^{0}P_5=
-            {}^{0}T_6
+        p_5^{0}=
+        T_6^{0}
         \begin{bmatrix}
             0    \\
             0    \\
@@ -271,7 +274,7 @@
 
     \[
         \phi_1=
-        \operatorname{atan2}(P_{5y},P_{5x})
+        \operatorname{atan2}(p_{5y},p_{5x})
     \]
 
     \[
@@ -279,11 +282,11 @@
         \cos^{-1}
         \left(
         \frac{d_4}
-        {\sqrt{P_{5x}^2+P_{5y}^2}}
+        {\sqrt{p_{5x}^2+p_{5y}^2}}
         \right)
     \]
 
-    Existem duas soluções:
+    Existem duas soluções (Shoulder Left e Shoulder Right):
 
     \[
         \theta_1=
@@ -294,11 +297,11 @@
 
 \begin{frame}{Determinação de $\theta_5$}
 
-    Conhecendo $\theta_1$,
+    Conhecendo $\theta_1$, obtém-se \(\theta_5\).
 
     \[
-        {}^{0}P_6=
-            {}^{0}T_6
+        p_6^{0}=
+        T_6^{0}
         \begin{bmatrix}
             0 \\
             0 \\
@@ -307,16 +310,15 @@
         \end{bmatrix}
     \]
 
-    obtém-se
-
+    Existem duas soluções (Wrist Up e Wrist Down):
     \[
         \theta_5=
         \cos^{-1}
         \left(
         \frac{
-            P_{6x}\sin\theta_1
+            p_{6x}\sin\theta_1
             -
-            P_{6y}\cos\theta_1
+            p_{6y}\cos\theta_1
             -
             d_4
         }
@@ -324,34 +326,20 @@
         \right)
     \]
 
-    Há duas configurações possíveis:
-
-    \begin{itemize}
-        \item Wrist Up
-        \item Wrist Down
-    \end{itemize}
 
 \end{frame}
 
 \begin{frame}{Determinação de $\theta_6$}
 
-    A matriz homogênea é invertida
+    A matriz homogênea é invertida para obter os vetores \(X_0^{6}\) e \(Y_0^{6}\), referentes a primeira e segunda coluna de \(T\).
 
     \[
-        {}^{6}T_0
+        T_0^{6}
         =
-        ({}^{0}T_6)^{-1}
+        (T_6^{0})^{-1}
     \]
 
-    Extraindo os vetores
-
-    \[
-        {}^{6}X_0,
-        \qquad
-        {}^{6}Y_0
-    \]
-
-    obtém-se
+    Obtém-se \(\theta_6\) por:
 
     \[
         \theta_6=
@@ -365,30 +353,23 @@
         \right)
     \]
 
-    Singularidade:
-
-    \[
-        \sin\theta_5=0
-    \]
-
 \end{frame}
 
 \begin{frame}{Determinação de $\theta_3$}
 
-    Calculam-se
+    Calcula-se
 
     \[
-        {}^{1}T_4=
-            {}^{1}T_6
-        ({}^{4}T_6)^{-1}
+        {}T_4^{1}=
+        T_6^{1}
+        (T_6^{4})^{-1}
     \]
 
-    e
 
     \[
-        {}^{1}P_3
+        p_3^{1}
             =
-            {}^{1}T_4
+            T_4^{1}
         \begin{bmatrix}
             0    \\
             -d_4 \\
@@ -396,18 +377,18 @@
             1
         \end{bmatrix}
     \]
-
+    Aplicando a Lei dos Cossenos, chega-se em:
     \[
         \cos\theta_3=
         \frac{
-            \|P_3\|^2
+            \|p_3\|^2
             -a_2^2
             -a_3^2
         }
         {2a_2a_3}
     \]
 
-    Logo,
+    Logo, existem duas soluções: Elbow Up e Elbow Down.
 
     \[
         \theta_3=
@@ -433,16 +414,9 @@
         \frac{
             a_3\sin\theta_3
         }
-        {\|P_3\|}
+        {\|p_3\|}
         \right)
     \]
-
-    A solução corresponde às configurações
-
-    \begin{itemize}
-        \item Elbow Up
-        \item Elbow Down
-    \end{itemize}
 
 \end{frame}
 
@@ -451,25 +425,25 @@
     Calculam-se
 
     \[
-        {}^{1}T_3
+        T_3^{1}
             =
-            {}^{1}T_2
-        {}^{2}T_3
+            T_2^{1}
+            T_3^{2}
     \]
 
     e
 
     \[
-        {}^{3}T_4
+        T_4^{3}
         =
-        ({}^{1}T_3)^{-1}
-            {}^{1}T_4
+        (T_3^{1})^{-1}
+        T_4^{1}
     \]
 
-    Extraindo o eixo $x_4$
+    Extraindo o vetor $X_4$.
 
     \[
-        {}^{3}X_4
+        X_4^{3}
         =
         \begin{bmatrix}
             x \\
@@ -478,7 +452,7 @@
         \end{bmatrix}
     \]
 
-    obtém-se
+    Obtém-se \(\theta_4\).
 
     \[
         \boxed{
@@ -493,35 +467,15 @@
 
 \begin{frame}{Número de Soluções}
 
-    A cinemática inversa do UR5 possui até
 
-    \[
-        2\times2\times2=8
-    \]
 
-    soluções.
-
-    Neste algoritmo são selecionadas através dos parâmetros
+    No algoritmo da cinemática inversa analítica existem até \(2 \times 2 \times 2 = 8\) soluções distintas, que são determinadas pelos parâmetros.
 
     \begin{itemize}
-        \item Shoulder
-        \item Wrist
-        \item Elbow
+        \item Shoulder Left ou Right
+        \item Wrist Up ou Down
+        \item Elbow Up ou Down
     \end{itemize}
-
-    que determinam:
-
-    \[
-        \{\text{Left, Right}\}
-    \]
-
-    \[
-        \{\text{Up, Down}\}
-    \]
-
-    \[
-        \{\text{Up, Down}\}
-    \]
 
 \end{frame}
 
@@ -542,7 +496,6 @@
 \begin{frame}{Validação da cinemática inversa.}
 
     A Figura \ref{fig:num_configs} mostra o número de configurações válidas obtidas por iteração para a cinemática inversa (CI). No pior caso, são encontradas duas configurações diferentes como solução para a CI.
-    %TODO: Colocar uma figura mais larga aqui
     \begin{figure}[htb]
         \centering
         \caption{Número de configurações válidas.}
@@ -573,6 +526,90 @@
         \end{minipage}
     \end{figure}
 
+\end{frame}
+
+\begin{frame}{Planejamento de trajetórias.}
+    O planejamento de trajetórias ponto a ponto é realizado por meio de polinômios do quinto grau, pois é uma estratégia de facil implementação e que permite ajustar os valores de velocidade e aceleração inicial e final.
+
+    \begin{equation}
+        \begin{bmatrix}
+            1 & t_0 & t_0^2 & t_0^3  & t_0^4   & t_0^5   \\
+            0 & 1   & 2t_0  & 3t_0^2 & 4t_0^3  & 5t_0^4  \\
+            0 & 0   & 2     & 6t_0   & 12t_0^2 & 20t_0^3 \\
+            1 & t_f & t_f^2 & t_f^3  & t_f^4   & t_f^5   \\
+            0 & 1   & 2t_f  & 3t_f^2 & 4t_f^3  & 5t_f^4  \\
+            0 & 0   & 2     & 6t_f   & 12t_f^2 & 20t_f^3
+        \end{bmatrix}
+        \begin{bmatrix}
+            a_0 \\
+            a_1 \\
+            a_2 \\
+            a_3 \\
+            a_4 \\
+            a_5
+        \end{bmatrix}
+        =
+        \begin{bmatrix}
+            q_0      \\
+            v_0      \\
+            \alpha_0 \\
+            q_f      \\
+            v_f      \\
+            \alpha_f
+        \end{bmatrix}
+    \end{equation}
+
+\end{frame}
+
+\begin{frame}{Validação do planejamento de trajetórias.}
+    A validação do planejamento de trajetórias é realizada pela definição de 9 pontos distintos que devem ser alcançados com base na cinemática direta. As variáveis das juntas definidas são listadas na Tabela \autoref{tab:hist_trajetoria}. Para a transição entre posições, considera-se um intervalo de tempo \(\Delta T = 15\ s\)
+
+    \begin{table}[h]
+        \centering
+        \caption{Histórico de variáveis das juntas na trajetória.}
+        \label{tab:hist_trajetoria}
+        \resizebox{0.3\textwidth}{!}{%
+            \begin{tabular}{|l|l|l|l|l|l|}
+                \hline
+                \(\theta_1\ \degree\) & \(\theta_2\ \degree\) & \(\theta_3\ \degree\) & \(\theta_4\ \degree\) & \(\theta_5\ \degree\) & \(\theta_6\ \degree\) \\ \hline
+                25                    & 15                    & 0                     & 0                     & 0                     & 0                     \\ \hline
+                90                    & 60                    & -10                   & 0                     & 0                     & 0                     \\ \hline
+                140                   & 70                    & -10                   & 0                     & 0                     & 0                     \\ \hline
+                140                   & -20                   & 70                    & 0                     & 20                    & 0                     \\ \hline
+                190                   & -20                   & 70                    & 0                     & 50                    & 0                     \\ \hline
+                240                   & 0                     & 20                    & 45                    & 0                     & 0                     \\ \hline
+                270                   & 30                    & 0                     & 0                     & 0                     & 0                     \\ \hline
+                360                   & 50                    & 0                     & 0                     & 0                     & 0                     \\ \hline
+                360                   & -90                   & 30                    & 0                     & 0                     & 0                     \\ \hline
+            \end{tabular}%
+        }
+    \end{table}
+\end{frame}
+
+\begin{frame}{Validação do planejamento de trajetórias.}
+    As Figuras \ref{fig:juntas_teste_1_3} e \ref{fig:juntas_teste_4_6} mostram os históricos das variáveis das juntas durante a etapa do planejamento de trajetórias.
+
+    \begin{figure}[h]
+        \centering
+        \begin{minipage}{0.48\textwidth}
+            \centering
+            \caption{Históricos das juntas 1 a 3.}
+            \includegraphics[width=\textwidth]{Figuras/juntas_teste_1_3.pdf}
+            \label{fig:juntas_teste_1_3}
+        \end{minipage}
+        \hfill
+        \begin{minipage}{0.48\textwidth}
+            \centering
+            \caption{Históricos das juntas 4 a 6.}
+            \includegraphics[width=\textwidth]{Figuras/juntas_teste_4_6.pdf}
+            \label{fig:juntas_teste_4_6}
+        \end{minipage}
+    \end{figure}
+
+\end{frame}
+
+\begin{frame}{Simulações.}
+    Mostrar os vídeos das simulações realizadas.
 \end{frame}
 
 \begin{frame}[allowframebreaks, noframenumbering]
